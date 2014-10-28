@@ -22,8 +22,9 @@ def url_for(endpoint, **values):
     if app.debug and not app.config['CDN_DEBUG']:
         return flask_url_for(endpoint, **values)
 
-    if any([endpoint.endswith('.%s' % ep)
-            for ep in app.config['CDN_ENPOINTS']]):
+    if (any([endpoint.endswith('.%s' % ep)
+            for ep in app.config['CDN_ENPOINTS']])
+        or endpoint in app.config['CDN_ENPOINTS']):
         cdn_https = app.config['CDN_HTTPS']
 
         scheme = 'http'
