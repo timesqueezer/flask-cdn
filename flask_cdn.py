@@ -22,7 +22,9 @@ def url_for(endpoint, **values):
     if app.debug:
         return flask_url_for(endpoint, **values)
 
-    if endpoint == 'static' or endpoint.endswith('.static'):
+    if (any([endpoint.endswith('.%s' % ep)
+            for ep in app.config['CDN_ENPOINTS']])
+        or endpoint in app.config['CDN_ENPOINTS']):
         cdn_https = app.config['CDN_HTTPS']
 
         scheme = 'http'
@@ -78,3 +80,6 @@ class CDN(object):
 
         if app.config['CDN_DOMAIN']:
             app.jinja_env.globals['url_for'] = url_for
+
+            app.config['CDN_ENPOINTS'] = app.config.get('CDN_ENDPOINTS',
+                                                        'static').split(',')
