@@ -115,6 +115,11 @@ required.
 `CDN_TIMESTAMP`             Specifies whether or not to add a timestamp to the
                             generated urls.
                             **Default:** `True`
+`CDN_ENDPOINTS`             The list of endpoints that will be rewritten to use
+                            the CDN. Endpoints will be checked for an exact
+                            match and also if it ends with a period followed by
+                            the endpoint name.
+                            **Default:** `['static']`
 =========================== ===================================================
 
 .. _debug: http://flask.pocoo.org/docs/config/#configuration-basics
