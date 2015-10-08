@@ -9,7 +9,7 @@ from setuptools import setup
 
 setup(
     name='Flask-CDN',
-    version='1.2.1',
+    version='1.2.2',
     url='https://github.com/wichitacode/flask-cdn',
     license='MIT',
     author='William Fagan',
