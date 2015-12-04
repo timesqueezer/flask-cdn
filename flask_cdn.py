@@ -33,11 +33,13 @@ def url_for(endpoint, **values):
         return False
 
     if endpoint_match(endpoint):
-        cdn_https = app.config['CDN_HTTPS']
-
-        scheme = 'http'
-        if cdn_https is True or (cdn_https is None and request.is_secure):
-            scheme = 'https'
+        try:
+            scheme = values.pop('_scheme')
+        except KeyError:
+            scheme = 'http'
+            cdn_https = app.config['CDN_HTTPS']
+            if cdn_https is True or (cdn_https is None and request.is_secure):
+                scheme = 'https'
 
         static_folder = app.static_folder
         if (request.blueprint is not None and
