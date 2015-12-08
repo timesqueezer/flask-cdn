@@ -110,6 +110,26 @@ class UrlTests(unittest.TestCase):
         exp = 'http://mycdnname.cloudfront.net/static/bah.js'
         self.assertEquals(self.client_get(ufs).get_data(True), exp)
 
+    def test_for_scheme(self):
+        """ Tests _scheme correctly overrides CDN_HTTPS option. """
+        ufs = "{{ url_for('static', filename='bah.js', _scheme='https') }}"
+        self.app.config['CDN_HTTPS'] = False
+        exp = 'https://mycdnname.cloudfront.net/static/bah.js'
+        self.assertEquals(self.client_get(ufs, secure=False).get_data(True),
+                          exp)
+
+        ufs = "{{ url_for('static', filename='bah.js', _scheme='http') }}"
+        self.app.config['CDN_HTTPS'] = True
+        exp = 'http://mycdnname.cloudfront.net/static/bah.js'
+        self.assertEquals(self.client_get(ufs, secure=True).get_data(True),
+                          exp)
+
+        ufs = "{{ url_for('static', filename='bah.js', _scheme=None) }}"
+        self.app.config['CDN_HTTPS'] = True
+        exp = '//mycdnname.cloudfront.net/static/bah.js'
+        self.assertEquals(self.client_get(ufs, secure=True).get_data(True),
+                          exp)
+
 
 class BlueprintTest(unittest.TestCase):
     def setUp(self):
