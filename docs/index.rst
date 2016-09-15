@@ -58,7 +58,7 @@ Flask-CDN know about your :class:`flask.Flask` application object.
 .. code-block:: python
 
     from flask import Flask
-    from flask.ext.cdn import CDN
+    from flask_cdn import CDN
 
     app = Flask(__name__)
     app.config['CDN_DOMAIN'] = 'mycdnname.cloudfront.net'
@@ -73,7 +73,7 @@ care of. In these cases, Flask-CDN provides a simple function,
 .. code-block:: python
 
     from flask import Flask
-    from flask.ext.cdn import CDN
+    from flask_cdn import CDN
 
     cdn = CDN()
 

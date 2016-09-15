@@ -5,7 +5,7 @@ import os
 import unittest
 
 from flask import Flask, Blueprint, render_template_string
-from flask.ext.cdn import CDN
+from flask_cdn import CDN
 
 
 class DefaultsTest(unittest.TestCase):

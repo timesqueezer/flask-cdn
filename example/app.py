@@ -1,5 +1,5 @@
 from flask import Flask, render_template_string
-from flask.ext.cdn import CDN
+from flask_cdn import CDN
 
 app = Flask(__name__)
 
