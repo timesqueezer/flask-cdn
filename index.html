@@ -1,0 +1,179 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Flask-CDN by libwilliam</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Flask-CDN</h1>
+        <p>Serve the static files in your Flask app from a CDN.</p>
+
+        <p class="view"><a href="https://github.com/libwilliam/flask-cdn">View the Project on GitHub <small>libwilliam/flask-cdn</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/libwilliam/flask-cdn/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/libwilliam/flask-cdn/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/libwilliam/flask-cdn">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="flask-cdn" class="anchor" href="#flask-cdn" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Flask-CDN</h1>
+
+<p><a href="https://pypi.python.org/pypi/Flask-CDN"><img src="https://img.shields.io/pypi/v/flask-cdn.svg" alt="Version"></a>
+<a href="https://travis-ci.org/libwilliam/flask-cdn"><img src="https://travis-ci.org/libwilliam/flask-cdn.png" alt="Build Status"></a>
+<a href="https://coveralls.io/github/wichitacode/flask-cdn"><img src="https://coveralls.io/repos/wichitacode/flask-cdn/badge.svg" alt="Coverage"></a>
+<a href="https://github.com/libwilliam/flask-cdn/blob/master/LICENSE"><img src="https://img.shields.io/pypi/l/flask-cdn.svg" alt="License"></a></p>
+
+<p>Flask-CDN allows you to easily serve all your <a href="http://flask.pocoo.org/">Flask</a> application’s static assets from a CDN (like <a href="https://aws.amazon.com/cloudfront/">Amazon Cloudfront</a>), without having to modify your templates.</p>
+
+<h2>
+<a id="how-it-works" class="anchor" href="#how-it-works" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How it works</h2>
+
+<p>Flask-CDN replaces the URLs that Flask’s <code>flask.url_for()</code> function would insert into your templates, with URLs that point to your CDN. This makes setting up an origin pull CDN extremely easy.</p>
+
+<p>Internally, every time <code>url_for</code> is called in one of your application’s templates, <code>flask_cdn.url_for</code> is instead invoked. If the endpoint provided is deemed to refer to static assets, then the CDN URL for the asset specified in the filename argument is instead returned. Otherwise, <code>flask_cdn.url_for</code> passes the call on to <code>flask.url_for</code>.</p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>If you use pip then installation is simply:</p>
+
+<div class="highlight highlight-source-shell"><pre>$ pip install flask-cdn</pre></div>
+
+<p>or, if you want the latest github version:</p>
+
+<div class="highlight highlight-source-shell"><pre>$ pip install git+git://github.com/wichitacode/flask-cdn.git</pre></div>
+
+<p>You can also install Flask-CDN via Easy Install:</p>
+
+<div class="highlight highlight-source-shell"><pre>$ easy_install flask-cdn</pre></div>
+
+<h2>
+<a id="dependencies" class="anchor" href="#dependencies" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dependencies</h2>
+
+<p>There are no additional dependencies besides Flask itself. Note: Flask-CDN currently only supports applications that use the <a href="http://jinja.pocoo.org/docs/">jinja2</a> templating system.</p>
+
+<h2>
+<a id="using-flask-cdn" class="anchor" href="#using-flask-cdn" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using Flask-CDN</h2>
+
+<p>Flask-CDN is incredibly simple to use. In order to start serving your Flask application’s assets from Amazon CDN, the first thing to do is let Flask-CDN know about your <code>flask.Flask</code> application object.</p>
+
+<div class="highlight highlight-source-python"><pre><span class="pl-k">from</span> flask <span class="pl-k">import</span> Flask
+<span class="pl-k">from</span> flask.ext.cdn <span class="pl-k">import</span> <span class="pl-c1">CDN</span>
+
+app <span class="pl-k">=</span> Flask(<span class="pl-c1">__name__</span>)
+app.config[<span class="pl-s"><span class="pl-pds">'</span>CDN_DOMAIN<span class="pl-pds">'</span></span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>mycdnname.cloudfront.net<span class="pl-pds">'</span></span>
+CDN(app)</pre></div>
+
+<p>In many cases, however, one cannot expect a Flask instance to be ready at import time, and a common pattern is to return a Flask instance from within a function only after other configuration details have been taken care of. In these cases, Flask-CDN provides a simple function, <code>init_app</code>, which takes your application as an argument.</p>
+
+<div class="highlight highlight-source-python"><pre><span class="pl-k">from</span> flask <span class="pl-k">import</span> Flask
+<span class="pl-k">from</span> flask.ext.cdn <span class="pl-k">import</span> <span class="pl-c1">CDN</span>
+
+cdn <span class="pl-k">=</span> CDN()
+
+<span class="pl-k">def</span> <span class="pl-en">start_app</span>():
+    app <span class="pl-k">=</span> Flask(<span class="pl-c1">__name__</span>)
+    cdn.init_app(app)
+    <span class="pl-k">return</span> app</pre></div>
+
+<p>In terms of getting your application to use external CDN URLs when referring to your application’s static assets, passing your Flask object to the CDN object is all that needs to be done. Once your app is running, any templates that contained relative static asset locations, will instead be pulled from your CDN.</p>
+
+<h2>
+<a id="static-asset-urls" class="anchor" href="#static-asset-urls" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Static Asset URLs</h2>
+
+<p>URLs generated by Flask-CDN will look like the following:</p>
+
+<p><code>/static/foo/style.css</code> becomes <code>https://mycdnname.cloudfront.net/static/foo/style.css</code>, assuming that mycdnname.cloudfront.net is the domain of your CDN, and you have chosen to have assets served over HTTPS.</p>
+
+<h1>
+<a id="flask-cdn-options" class="anchor" href="#flask-cdn-options" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Flask-CDN Options</h1>
+
+<p>Within your Flask application’s settings you can provide the following settings to control the behaviour of Flask-CDN. None of the settings are required.</p>
+
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CDN_DEBUG</code></td>
+<td>Activate Debug mode to return relative url rather than CDN enabled ones.</td>
+<td><code>app.debug</code></td>
+</tr>
+<tr>
+<td><code>CDN_DOMAIN</code></td>
+<td>Set the base domain for your CDN here.</td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td><code>CDN_HTTPS</code></td>
+<td>Specifies whether or not to serve your assets over HTTPS. If not specified the asset will be served by the same method the request comes in as.</td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td><code>CDN_TIMESTAMP</code></td>
+<td>Specifies whether or not to add a timestamp to the generated urls.</td>
+<td><code>True</code></td>
+</tr>
+<tr>
+<td><code>CDN_ENDPOINTS</code></td>
+<td>The list of endpoints that will be rewritten to use the CDN. Endpoints will be checked for an exact match and also if it ends with a period followed by the endpoint name.</td>
+<td><code>['static']</code></td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="serve-static-assets-with-cloudfront" class="anchor" href="#serve-static-assets-with-cloudfront" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Serve Static Assets with CloudFront</h2>
+
+<p>CloudFront is a very simple way to seamlessly serve your static assets with it’s CDN. When a request comes into CloudFront, if the asset is not on the CDN or has expired, then CloudFront can get the asset from an “origin server”. This type of setup is called an origin pull CDN.</p>
+
+<p>To setup a new CloudFront “Distribution”:</p>
+
+<ul>
+<li>Signup for an <a href="https://aws.amazon.com/">AWS Account</a>
+</li>
+<li>Open the <a href="https://console.aws.amazon.com/cloudfront/">Cloudfront Management Console</a>
+</li>
+<li>Select Create Distribution</li>
+<li>Leave Download selected as the delivery method and select Continue</li>
+<li>In the Origin Domain Name field enter the domain name for your application</li>
+<li>Change <strong>Forward Query Strings</strong> to <strong>Yes</strong>
+</li>
+<li>Keep the other default values as-is and select Create Distribution</li>
+</ul>
+
+<p>It will now take a few minutes for AWS to create the CloudFront distribution.</p>
+
+<ul>
+<li>Set <code>CDN_DOMAIN</code> in your Flask app to the newly created ‘Domain Name’ of your Cloudfront CDN.</li>
+</ul>
+
+<p>Then you are done! Next time someone visits your site Cloudfront will cache and serve everything under the /static/ directory.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/libwilliam">libwilliam</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
