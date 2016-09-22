@@ -9,6 +9,7 @@ setuptools.setup(
     author='William Fagan',
     author_email='libwilliam@gmail.com',
     description='Serve the static files in your Flask app from a CDN.',
+    long_description='Full documentation can be found on the Flask-CDN "Home Page".',
     py_modules=['flask_cdn'],
     zip_safe=False,
     include_package_data=True,
