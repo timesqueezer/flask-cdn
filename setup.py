@@ -1,21 +1,14 @@
-"""
-Flask-CDN
----------
-
-Serve the static files in your Flask app from a CDN.
-"""
-from setuptools import setup
+import setuptools
 
 
-setup(
+setuptools.setup(
     name='Flask-CDN',
     version='1.5.1',
-    url='https://github.com/wichitacode/flask-cdn',
+    url='https://libwilliam.github.io/flask-compress/',
     license='MIT',
     author='William Fagan',
-    author_email='will@wichitacode.com',
+    author_email='libwilliam@gmail.com',
     description='Serve the static files in your Flask app from a CDN.',
-    long_description=__doc__,
     py_modules=['flask_cdn'],
     zip_safe=False,
     include_package_data=True,
