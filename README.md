@@ -9,7 +9,7 @@ Flask-CDN allows you to easily serve all your [Flask](http://flask.pocoo.org/) a
 
 
 ## How it works
-Flask-CDN replaces the URLs that Flask’s [`flask.url_for()`](http://flask.pocoo.org/docs/latest/api/#flask.url_for) function would insert into your templates, with URLs that point to your CDN. This makes setting up an origin pull CDN extremely easy.
+Flask-CDN replaces the URLs that Flask’s [`flask.url_for`](http://flask.pocoo.org/docs/latest/api/#flask.url_for) function would insert into your templates, with URLs that point to your CDN. This makes setting up an origin pull CDN extremely easy.
 
 Internally, every time `url_for` is called in one of your application’s templates, `flask_cdn.url_for` is instead invoked. If the endpoint provided is deemed to refer to static assets, then the CDN URL for the asset specified in the filename argument is instead returned. Otherwise, `flask_cdn.url_for` passes the call on to [`flask.url_for`](http://flask.pocoo.org/docs/latest/api/#flask.url_for).
 
@@ -40,14 +40,14 @@ Flask-CDN is incredibly simple to use. In order to start serving your Flask appl
 
 ```python
 from flask import Flask
-from flask.ext.cdn import CDN
+from flask_cdn import CDN
 
 app = Flask(__name__)
 app.config['CDN_DOMAIN'] = 'mycdnname.cloudfront.net'
 CDN(app)
 ```
 
-In many cases, however, one cannot expect a Flask instance to be ready at import time, and a common pattern is to return a Flask instance from within a function only after other configuration details have been taken care of. In these cases, Flask-CDN provides a simple function, `flask_cdn.init_app`, which takes your application as an argument.
+In many cases, however, one cannot expect a Flask instance to be ready at import time, and a common pattern is to return a Flask instance from within a function only after other configuration details have been taken care of. In these cases, Flask-CDN provides a simple function, `flask_cdn.CDN.init_app`, which takes your application as an argument.
 
 ```python
 from flask import Flask
