@@ -51,7 +51,7 @@ In many cases, however, one cannot expect a Flask instance to be ready at import
 
 ```python
 from flask import Flask
-from flask.ext.cdn import CDN
+from flask_cdn import CDN
 
 cdn = CDN()
 
