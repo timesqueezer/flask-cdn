@@ -3,7 +3,7 @@ import setuptools
 
 setuptools.setup(
     name='Flask-CDN',
-    version='1.5.1',
+    version='1.5.2',
     url='https://libwilliam.github.io/flask-compress/',
     license='MIT',
     author='William Fagan',
