@@ -144,6 +144,7 @@ class UrlTests(unittest.TestCase):
         self.assertEquals(self.client_get(ufs, secure=True).get_data(True),
                           exp)
 
+
 class BlueprintTest(unittest.TestCase):
     def setUp(self):
         self.app = Flask(__name__)
