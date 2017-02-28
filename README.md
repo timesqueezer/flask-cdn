@@ -79,6 +79,7 @@ Within your Flask application’s settings you can provide the following setting
 | `CDN_DOMAIN` | Set the base domain for your CDN here. | `None` |
 | `CDN_HTTPS` | Specifies whether or not to serve your assets over HTTPS. If not specified the asset will be served by the same method the request comes in as. | `None` |
 | `CDN_TIMESTAMP` | Specifies whether or not to add a timestamp to the generated urls. | `True` |
+| `CDN_VERSION` | The version string to add to the generated urls. Useful when the timestamps of your files are different across servers or if you just want a more stable cache key. | `None` |
 | `CDN_ENDPOINTS` | The list of endpoints that will be rewritten to use the CDN. Endpoints will be checked for an exact match and also if it ends with a period followed by the endpoint name. | `['static']` |
 
 

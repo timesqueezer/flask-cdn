@@ -133,6 +133,11 @@ cdn <span class="pl-k">=</span> CDN()
 <td><code>True</code></td>
 </tr>
 <tr>
+<td><code>CDN_VERSION</code></td>
+<td>The version string to add to the generated urls. Usefull when the timestamps of your files are different across servers or if you just want a more stable cache key.</td>
+<td><code>None</code></td>
+</tr>
+<tr>
 <td><code>CDN_ENDPOINTS</code></td>
 <td>The list of endpoints that will be rewritten to use the CDN. Endpoints will be checked for an exact match and also if it ends with a period followed by the endpoint name.</td>
 <td><code>['static']</code></td>

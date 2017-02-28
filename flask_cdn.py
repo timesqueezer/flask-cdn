@@ -53,6 +53,8 @@ def url_for(endpoint, **values):
             path = os.path.join(static_folder, values['filename'])
             values['t'] = int(os.path.getmtime(path))
 
+        values['v'] = app.config['CDN_VERSION']
+
         return urls.build(endpoint, values=values, force_external=True)
 
     return flask_url_for(endpoint, **values)
@@ -86,6 +88,7 @@ class CDN(object):
                     ('CDN_DOMAIN', None),
                     ('CDN_HTTPS', None),
                     ('CDN_TIMESTAMP', True),
+                    ('CDN_VERSION', None),
                     ('CDN_ENDPOINTS', ['static'])]
 
         for k, v in defaults:
