@@ -1,7 +1,7 @@
 import os
 
 from flask import url_for as flask_url_for
-from flask import current_app, request
+from flask import current_app, request, _request_ctx_stack
 
 
 def url_for(endpoint, **values):
@@ -19,7 +19,7 @@ def url_for(endpoint, **values):
     """
     app = current_app
 
-    if app.config['CDN_DEBUG']:
+    if app.config['CDN_DEBUG'] or _request_ctx_stack.top is None:
         return flask_url_for(endpoint, **values)
 
     def endpoint_match(endpoint):
