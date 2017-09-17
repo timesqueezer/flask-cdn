@@ -47,6 +47,11 @@ def url_for(endpoint, **values):
                 app.blueprints[request.blueprint].has_static_folder):
             static_folder = app.blueprints[request.blueprint].static_folder
 
+        elif '.' in endpoint:
+            blueprint_name = endpoint.split('.')[0]
+            if blueprint_name in app.blueprints and app.blueprints[blueprint_name].has_static_folder:
+                static_folder = app.blueprints[blueprint_name].static_folder
+
         urls = app.url_map.bind(app.config['CDN_DOMAIN'], url_scheme=scheme)
 
         if app.config['CDN_TIMESTAMP']:
